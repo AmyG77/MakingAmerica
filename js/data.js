@@ -1,16 +1,16 @@
 const HistoricalData = {
     optimizations: {
         1830: { 
-            impact: "Systemic clearing of Shawnee and Lakota settlements via the Indian Removal Act for agricultural privatization.",
+            impact: "Systemic removal of Miami and Shawnee populations following the Treaty of Greenville (1795).",
             moralCost: "Critical" 
         },
         1890: { 
-            impact: "Rapid extraction of coal and iron to fuel the Mahoning Valley industrial boom.",
-            moralCost: "High" 
-        },
-        1950: { 
-            impact: "Redlining and highway construction through Cincinnati and Cleveland neighborhoods.",
+            impact: "Rapid industrialization of the Miami Valley, utilizing immigrant labor for steel and paper mills.",
             moralCost: "High" 
         }
-    }
+    },
+    resistanceFigures: [
+        "Blue Jacket (Shawnee): Led resistance at the Battle of Fallen Timbers.",
+        "Tecumseh (Shawnee): Attempted to unify tribes against land cessions."
+    ]
 };
