@@ -1,28 +1,15 @@
 const ui = {
-    isRotating: false,
-
-    toggleRotation() {
-        if (engine.year >= 2026) return;
-        const world = document.getElementById('ohio-world');
-        this.isRotating = !this.isRotating;
-        
-        if (this.isRotating) {
-            world.classList.add('rotating-world');
-            document.getElementById('btn-rotate').innerText = "⏹️ STOP";
-        } else {
-            world.classList.remove('rotating-world');
-            document.getElementById('btn-rotate').innerText = "🔄 ROTATE";
-        }
+    toggleShop() {
+        const shop = document.getElementById('shop-overlay');
+        if (shop) shop.classList.toggle('hidden');
     },
 
     switchToModern() {
-        const world = document.getElementById('ohio-world');
-        world.classList.remove('rotating-world');
-        world.style.transform = "rotateX(0deg) rotateZ(0deg) scale(0.8)";
+        // Switch control bars
+        document.getElementById('build-controls').classList.add('hidden');
+        document.getElementById('restore-controls').classList.remove('hidden');
         
-        document.getElementById('btn-audit').classList.remove('hidden');
-        document.getElementById('btn-rotate').classList.add('hidden');
-        document.getElementById('btn-charge').classList.add('hidden');
+        document.getElementById('npc-text').innerText = "The mills have closed and the malls are empty. Will you restore the Miami soil?";
     }
 };
 window.ui = ui;
