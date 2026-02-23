@@ -30,32 +30,33 @@ const engine = {
             this.gold -= cost;
             tile.classList.add('built');
             
-            // Asset selection
-            const era = this.year < 1890 ? this.assets.frontier : (this.year < 1970 ? this.assets.industrial : this.assets.modern);
-            tile.innerText = era[Math.floor(Math.random() * era.length)];
+            const pool = this.year < 1890 ? this.assets.frontier : (this.year < 1970 ? this.assets.industrial : this.assets.modern);
+            tile.innerText = pool[Math.floor(Math.random() * pool.length)];
 
             if (this.isOptimized) {
                 tile.dataset.truth = "true";
                 this.history.push({ year: Math.floor(this.year), action: "Frontier Dealing" });
-                tile.style.backgroundColor = "#ffebcc"; 
             }
-            document.getElementById('gold').innerText = Math.floor(this.gold);
+            this.updateUI();
         }
     },
 
     tick() {
         this.year += this.isOptimized ? 5 : 1;
         this.gold += this.isOptimized ? 800 : 150;
+        this.updateUI();
+        if (this.year >= 2026) this.endGame();
+    },
+
+    updateUI() {
         document.getElementById('year').innerText = Math.floor(this.year);
         document.getElementById('gold').innerText = Math.floor(this.gold);
-        if (this.year >= 2026) this.endGame();
     },
 
     endGame() {
         this.year = 2026;
-        document.getElementById('btn-audit').classList.remove('hidden');
-        document.getElementById('ohio-world').style.transform = "rotateX(0deg) rotateZ(0deg) scale(0.8)";
-        document.getElementById('npc-text').innerText = "2026 Reached. The 3D model is locked for Audit.";
+        this.updateUI();
+        window.ui.switchToModern();
     }
 };
 window.onload = () => engine.init();
