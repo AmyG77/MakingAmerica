@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Making Ohio 3D | The Bureau</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Making Ohio | 3D Frontier Garden</title>
     <link rel="stylesheet" href="css/styles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
@@ -22,12 +23,15 @@
         
         <div id="npc-container">
             <div id="npc-avatar">🦊</div>
-            <div id="speech-bubble"><p id="npc-text">Welcome to the 3D Frontier! Every 'Dealing' builds a taller tower.</p></div>
+            <div id="speech-bubble"><p id="npc-text">Welcome to Ohio! Click 'DEALINGS' to grow faster, but the Bureau is watching...</p></div>
         </div>
     </main>
 
     <nav id="command-center">
-        <button class="btn-garden" onclick="engine.setAction('plow')">🚜 PLOW</button>
+        <div class="btn-group">
+            <button class="btn-garden" onclick="engine.setAction('plow')">🚜 PLOW</button>
+            <button id="btn-rotate" class="btn-garden" onclick="ui.toggleRotation()">🔄 ROTATE</button>
+        </div>
         <button id="btn-charge" class="btn-giant" onclick="engine.toggleOptimization()">⚡ DEALINGS</button>
         <button id="btn-audit" class="btn-special hidden" onclick="audit.generate()">📜 SETTLEMENT AUDIT</button>
     </nav>
