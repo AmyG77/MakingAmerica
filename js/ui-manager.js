@@ -5,11 +5,10 @@ const ui = {
     },
 
     switchToModern() {
-        // Switch control bars
+        // Only trigger this once in 2026
         document.getElementById('build-controls').classList.add('hidden');
         document.getElementById('restore-controls').classList.remove('hidden');
-        
-        document.getElementById('npc-text').innerText = "The mills have closed and the malls are empty. Will you restore the Miami soil?";
+        document.getElementById('npc-text').innerText = "The age of extraction is over. Will you give the land back?";
     }
 };
 window.ui = ui;
