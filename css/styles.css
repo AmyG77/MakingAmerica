@@ -4,9 +4,9 @@
     --grass: #a8e6cf; --dirt: #d2b48c; --white: #ffffff;
 }
 
-body { background: #e8d3b9; margin: 0; font-family: 'Quicksand', sans-serif; }
+body { background: #e8d3b9; margin: 0; font-family: 'Quicksand', sans-serif; overflow: hidden; }
 
-/* THE FIX: Force hidden elements to stay hidden */
+/* Critical for the Info Box Fix */
 .hidden { display: none !important; }
 
 #ohio-canvas {
@@ -16,30 +16,32 @@ body { background: #e8d3b9; margin: 0; font-family: 'Quicksand', sans-serif; }
     box-shadow: 0 20px 60px rgba(0,0,0,0.1); overflow: hidden;
 }
 
-/* Shop Overlay Styling */
-#shop-overlay {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.7); display: flex; justify-content: center; align-items: center;
-    z-index: 2000;
-}
-
-.shop-content {
-    background: #fff9e6; padding: 40px; border-radius: 30px;
-    border: 6px solid #d2b48c; width: 400px; text-align: center;
-}
-
-#barnaby-avatar { font-size: 4rem; margin-bottom: 10px; }
-
+/* Entity Layering Logic */
 .entity {
     position: absolute; width: 120px; height: 120px;
     background-size: contain; background-repeat: no-repeat;
     background-position: bottom center; transform: translate(-50%, -100%);
+    transition: all 0.5s ease-out;
 }
 
-.entity.decay { filter: grayscale(100%) opacity(0.6); }
+/* Era Visuals */
+.entity.corn { background-image: url('assets/corn.png'); }
+.entity.factory { background-image: url('assets/factory.png'); }
+.entity.mall { background-image: url('assets/mall.png'); }
+.entity.decay { filter: grayscale(100%) opacity(0.65); background-image: url('assets/abandoned.png'); }
+.entity.ancient-forest { background-image: url('assets/ancient-oak.png'); animation: bloom 1s ease; }
 
-/* Buttons */
-.btn-ui, .btn-restore, .btn-special { 
-    padding: 15px 30px; border-radius: 50px; border: none; font-weight: bold; cursor: pointer;
+@keyframes bloom { 0% { transform: translate(-50%, -100%) scale(0); } 100% { transform: translate(-50%, -100%) scale(1); } }
+
+/* Shop & NPC */
+#shop-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.7); display: flex; justify-content: center; align-items: center; z-index: 3000;
 }
-.btn-giant { padding: 20px 50px; font-size: 1.2rem; background: #ffcc00; border: none; border-radius: 50px; font-weight: 900; }
+.shop-content { background: #fff9e6; padding: 40px; border-radius: 30px; border: 6px solid #d2b48c; text-align: center; }
+#barnaby-avatar { font-size: 4rem; }
+
+/* HUD & Buttons */
+#hud { background: white; padding: 20px; display: flex; justify-content: space-around; border-bottom: 5px solid var(--grass); }
+.btn-ui, .btn-restore, .btn-special { padding: 15px 30px; border-radius: 50px; border: none; font-weight: bold; cursor: pointer; margin: 0 5px; }
+.btn-giant { padding: 20px 50px; background: #ffcc00; border: none; border-radius: 50px; font-weight: 900; cursor: pointer; }
