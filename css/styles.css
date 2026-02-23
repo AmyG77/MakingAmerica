@@ -1,67 +1,70 @@
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@700&display=swap');
 
 :root {
-    --grass: #a8e6cf; --flower: #ff8b94; --river: #dcedc1;
-    --text: #5d4037; --white: #ffffff;
+    --grass: #7cfc00; --dirt: #d2b48c; --sky: #87ceeb;
+    --rust: #b7410e; --ui-cream: #fff9e6;
 }
 
 body {
-    background-color: #fdf6e3;
+    background: linear-gradient(to bottom, #a8e6cf, #dcedc1);
     margin: 0; font-family: 'Quicksand', sans-serif;
-    color: var(--text); display: flex; flex-direction: column;
     height: 100vh; overflow: hidden;
 }
 
-/* --- THE NPC (PIP) --- */
-#npc-container {
-    position: absolute; top: 100px; right: 50px;
-    display: flex; align-items: center; z-index: 10;
-}
-#npc-avatar { font-size: 5rem; }
-#speech-bubble {
-    background: white; padding: 15px 20px; border-radius: 20px;
-    border: 4px solid var(--river); box-shadow: 0 6px 0 var(--river);
-    max-width: 250px; font-size: 1.1rem;
+#hud {
+    background: var(--ui-cream); padding: 15px;
+    display: flex; justify-content: space-around;
+    border-bottom: 5px solid #f3e5ab; font-weight: bold;
 }
 
-/* --- THE GRID --- */
+/* --- ISOMETRIC OHIO MAP --- */
+#game-viewport {
+    display: flex; justify-content: center; align-items: center;
+    perspective: 1200px; height: 60vh;
+}
+
+#ohio-wrapper {
+    transform: rotateX(45deg) rotateZ(-30deg);
+    /* Ohio-ish Shape via Clip-Path */
+    clip-path: polygon(10% 0%, 90% 0%, 100% 20%, 95% 80%, 80% 100%, 20% 100%, 0% 70%, 5% 20%);
+    background: #556b2f; padding: 10px; border-radius: 20px;
+}
+
 #map-grid {
-    display: grid; grid-template-columns: repeat(10, 1fr);
-    gap: 8px; background: white; padding: 20px;
-    border-radius: 40px; box-shadow: 0 15px 0 var(--river);
+    display: grid; grid-template-columns: repeat(10, 1fr); gap: 5px;
 }
-.tile {
-    width: 60px; height: 60px; background: var(--grass);
-    border-radius: 15px; display: flex; align-items: center;
-    justify-content: center; font-size: 2rem; cursor: pointer;
-    transition: 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-.tile:hover { transform: scale(1.15) rotate(3deg); }
 
-/* --- THE GIANT BUTTONS --- */
+.tile {
+    width: 50px; height: 50px; background: var(--grass);
+    border-radius: 8px; display: flex; align-items: center;
+    justify-content: center; font-size: 1.8rem;
+    box-shadow: 0 4px 0 rgba(0,0,0,0.1); transition: 0.2s;
+}
+
+.tile:hover { transform: translateZ(10px); background: #98fb98; }
+
+/* --- BUTTONS: ANIMAL GARDEN STYLE --- */
 #command-center {
-    padding: 40px; background: rgba(255,255,255,0.8);
-    display: flex; gap: 30px; justify-content: center;
-    border-top: 5px solid var(--river);
+    position: fixed; bottom: 0; width: 100%;
+    padding: 20px; background: rgba(255,255,255,0.9);
+    display: flex; justify-content: center; gap: 20px;
+}
+
+.btn-garden, .btn-giant {
+    border: none; border-radius: 20px; font-weight: 900;
+    cursor: pointer; font-family: 'Quicksand';
+}
+
+.btn-garden {
+    background: #ffffff; padding: 15px 25px;
+    box-shadow: 0 6px 0 #ddd; border: 2px solid #eee;
 }
 
 .btn-giant {
-    padding: 25px 50px; font-size: 1.5rem; font-weight: 900;
-    border: none; border-radius: 60px; cursor: pointer;
-    background: var(--text); color: white;
-    box-shadow: 0 10px 0 #3e2723; transition: 0.1s;
+    background: #ffcc00; padding: 20px 40px; font-size: 1.2rem;
+    box-shadow: 0 8px 0 #ccaa00;
 }
 
-#btn-nature { background: #81c784; box-shadow: 0 10px 0 #388e3c; }
+.btn-giant:active { transform: translateY(4px); box-shadow: 0 4px 0 #ccaa00; }
 
-.btn-giant:active { transform: translateY(6px); box-shadow: 0 4px 0 #3e2723; }
-
-/* 2026 REVEAL */
-.btn-special {
-    background: #ff8b94; padding: 25px 50px; font-size: 1.5rem;
-    border: none; border-radius: 60px; color: white;
-    box-shadow: 0 10px 0 #c62828; cursor: pointer;
-}
-
-body.era-2026 { background-color: #e0f2f1; }
 .hidden { display: none !important; }
