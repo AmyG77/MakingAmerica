@@ -1,25 +1,16 @@
-/**
- * Historical Truth Mappings
- * These translate 'Optimized' actions into their systemic reality.
- */
 const HistoricalData = {
     optimizations: {
         1830: { 
-            impact: "Forced displacement of indigenous populations to clear 'Expansion Habitats'.",
-            moralCost: "High" 
-        },
-        1880: { 
-            impact: "Systemic utilization of tenement labor and child workforces for 'Industrial Growth'.",
+            impact: "Systemic clearing of Shawnee and Lakota settlements via the Indian Removal Act for agricultural privatization.",
             moralCost: "Critical" 
         },
-        1940: { 
-            impact: "Strategic implementation of HOLC Redlining maps to 'Stabilize' property value.",
+        1890: { 
+            impact: "Rapid extraction of coal and iron to fuel the Mahoning Valley industrial boom.",
             moralCost: "High" 
         },
-        1980: { 
-            impact: "Aggressive deregulation and privatization of public resources for 'Asset Liquidity'.",
-            moralCost: "Moderate" 
+        1950: { 
+            impact: "Redlining and highway construction through Cincinnati and Cleveland neighborhoods.",
+            moralCost: "High" 
         }
-    },
-    natureGains: "Preservation of biodiversity and community health through non-extractive land use."
+    }
 };
