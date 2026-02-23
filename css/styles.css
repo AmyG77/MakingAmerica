@@ -1,38 +1,219 @@
-@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&display=swap');
 
-body { background: #e8d3b9; margin: 0; font-family: 'Quicksand', sans-serif; overflow: hidden; }
+/* --- VARIABLE & ROOT DEFAULTS --- */
+:root {
+    --grass: #a8e6cf;
+    --dirt: #d2b48c;
+    --sky: #dcedc1;
+    --text: #3e2723;
+    --white: #ffffff;
+    --gold: #ffcc00;
+    --steward: #81c784;
+}
 
-/* THE FIX: This ensures hidden elements STAY hidden */
-.hidden { display: none !important; }
+body {
+    background-color: #e8d3b9;
+    margin: 0;
+    font-family: 'Quicksand', sans-serif;
+    color: var(--text);
+    overflow: hidden; /* Prevents scrollbars during building */
+    height: 100vh;
+}
 
+/* --- THE FIX: HIDDEN STATE --- */
+.hidden {
+    display: none !important;
+}
+
+/* --- HUD & STATS --- */
+#hud {
+    background: var(--white);
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-around;
+    border-bottom: 5px solid var(--grass);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+/* --- THE MIAMI VALLEY CANVAS --- */
 #ohio-canvas {
-    position: relative; width: 1000px; height: 600px;
-    background: #a8e6cf; margin: 20px auto;
-    border: 10px solid white; border-radius: 40px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.1); overflow: hidden;
+    position: relative;
+    width: 1000px;
+    height: 600px;
+    background-color: var(--grass);
+    margin: 20px auto;
+    border: 10px solid var(--white);
+    border-radius: 40px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+    overflow: hidden;
+    cursor: url('../assets/cursor-plow.png'), crosshair;
 }
 
-/* SPRITE PATHS: Double check these names match your assets folder! */
+/* --- ENTITIES & SPRITES --- */
 .entity {
-    position: absolute; width: 120px; height: 120px;
-    background-size: contain; background-repeat: no-repeat;
-    background-position: bottom center; transform: translate(-50%, -100%);
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: bottom center;
+    /* translate(-50%, -100%) ensures the 'feet' of the building stay at the click point */
+    transform: translate(-50%, -100%);
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
+
+/* Era-Specific Sprite Assignments */
 .entity.corn { background-image: url('../assets/corn.png'); }
 .entity.factory { background-image: url('../assets/factory.png'); }
 .entity.mall { background-image: url('../assets/mall.png'); }
-.entity.decay { background-image: url('../assets/abandoned.png'); filter: grayscale(1); }
-.entity.ancient-forest { background-image: url('../assets/ancient-oak.png'); }
 
-/* SHOP & NPC */
-#shop-overlay {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.8); display: flex; justify-content: center; align-items: center; z-index: 9999;
+/* The Decay Era: Grayscale and faded */
+.entity.decay { 
+    background-image: url('../assets/abandoned.png'); 
+    filter: grayscale(100%) opacity(0.65);
 }
-.shop-content { background: #fff9e6; padding: 40px; border-radius: 30px; text-align: center; }
 
-#npc-avatar-img { width: 80px; height: 80px; background: url('../assets/pip-avatar.png') center/cover; border-radius: 50%; }
+/* The Restoration Asset: Ancient Oak */
+.entity.ancient-forest {
+    background-image: url('../assets/ancient-oak.png');
+    animation: bloom 1s ease-out forwards;
+    filter: drop-shadow(0 0 8px rgba(129, 199, 132, 0.6));
+}
 
-/* BUTTONS */
-.btn-ui, .btn-restore, .btn-special { padding: 15px 25px; border-radius: 30px; border: none; cursor: pointer; font-weight: bold; }
-.btn-giant { padding: 20px 40px; border-radius: 50px; background: #ffcc00; border: none; font-weight: 900; cursor: pointer; }
+/* --- ANIMATIONS --- */
+@keyframes bloom {
+    0% { transform: translate(-50%, -100%) scale(0) rotate(-10deg); opacity: 0; }
+    60% { transform: translate(-50%, -100%) scale(1.1) rotate(2deg); opacity: 1; }
+    100% { transform: translate(-50%, -100%) scale(1) rotate(0deg); opacity: 1; }
+}
+
+/* --- NPC & SPEECH SYSTEM --- */
+#npc-container {
+    position: absolute;
+    bottom: 120px;
+    left: 50px;
+    display: flex;
+    align-items: center;
+    z-index: 5000;
+}
+
+#npc-avatar-img {
+    width: 90px;
+    height: 90px;
+    background: url('../assets/pip-avatar.png') center/cover;
+    border-radius: 50%;
+    border: 4px solid var(--white);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+#speech-bubble {
+    background: var(--white);
+    padding: 15px 25px;
+    border-radius: 25px;
+    margin-left: 15px;
+    border: 3px solid var(--dirt);
+    box-shadow: 0 6px 0px var(--dirt);
+    max-width: 250px;
+}
+
+#speech-bubble p {
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+/* --- BARNABY'S SHOP OVERLAY --- */
+#shop-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(62, 39, 35, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.shop-content {
+    background: #fff9e6;
+    padding: 40px;
+    border-radius: 35px;
+    border: 8px solid var(--dirt);
+    text-align: center;
+    width: 400px;
+}
+
+#barnaby-avatar {
+    font-size: 5rem;
+    margin-bottom: 10px;
+}
+
+.shop-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--white);
+    padding: 15px 20px;
+    margin: 15px 0;
+    border-radius: 15px;
+}
+
+/* --- COMMAND CENTER & BUTTONS --- */
+#command-center {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: var(--white);
+    padding: 25px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    border-top: 6px solid var(--dirt);
+}
+
+.btn-ui, .btn-restore, .btn-special, .btn-close {
+    padding: 15px 30px;
+    border-radius: 50px;
+    border: none;
+    font-weight: 700;
+    font-family: 'Quicksand', sans-serif;
+    cursor: pointer;
+    transition: transform 0.1s;
+}
+
+.btn-ui {
+    background: #eee;
+    box-shadow: 0 5px 0 #ccc;
+}
+
+.btn-giant {
+    padding: 20px 50px;
+    background: var(--gold);
+    border: none;
+    border-radius: 60px;
+    font-weight: 900;
+    font-size: 1.2rem;
+    box-shadow: 0 8px 0 #ccaa00;
+    cursor: pointer;
+}
+
+.btn-restore {
+    background: var(--steward);
+    color: var(--white);
+    box-shadow: 0 8px 0 #388e3c;
+}
+
+.btn-special {
+    background: #ff8b94;
+    color: var(--white);
+    box-shadow: 0 8px 0 #c62828;
+}
+
+.btn-ui:active, .btn-giant:active, .btn-restore:active {
+    transform: translateY(4px);
+    box-shadow: none;
+}
