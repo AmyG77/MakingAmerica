@@ -1,107 +1,134 @@
-/* --- COZY CITY THEME --- */
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&display=swap');
+
 :root {
-    --bg-color: #fbeddb;  /* Warm Paper */
-    --grass: #a8e6cf;     /* Minty Parks */
-    --water: #dcedc1;     /* Soft Seafoam */
-    --road: #95a5a6;      /* Gentle Grey */
-    --accent: #ff8b94;    /* Pastel Pink */
-    --text-color: #5d4037;
+    --grass: #a8e6cf;
+    --flower: #ff8b94;
+    --river: #dcedc1;
+    --text: #5d4037;
+    --gold: #ffd3b6;
+    --white: #ffffff;
 }
 
 body {
-    background-color: var(--bg-color);
+    background-color: #fdf6e3;
     margin: 0;
-    font-family: 'Segoe UI', Rounded, sans-serif;
-    color: var(--text-color);
-    overflow-x: hidden;
+    font-family: 'Quicksand', sans-serif;
+    color: var(--text);
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
 }
 
-/* --- THE HUD: METRICS OVER BEAUTY --- */
+/* --- PROMINENT HUD --- */
 #hud {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(10px);
     padding: 20px;
+    background: white;
     display: flex;
-    justify-content: space-between;
-    border-bottom: 3px solid var(--water);
+    justify-content: space-around;
+    border-bottom: 6px solid var(--river);
     box-shadow: 0 4px 15px rgba(0,0,0,0.05);
 }
 
-.stat {
-    font-size: 1.2rem;
-    font-weight: 900;
-    text-transform: uppercase;
+.stat { font-weight: 700; font-size: 1.2rem; }
+
+/* --- NPC DIALOGUE BOX --- */
+#npc-container {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    width: 80%;
+    max-width: 600px;
+    z-index: 100;
 }
 
-/* --- THE CITY VIEWPORT --- */
+#npc-avatar {
+    font-size: 4rem;
+    filter: drop-shadow(2px 4px 0px rgba(0,0,0,0.1));
+}
+
+#speech-bubble {
+    background: white;
+    padding: 15px 25px;
+    border-radius: 25px;
+    border: 4px solid var(--river);
+    margin-left: 15px;
+    position: relative;
+    box-shadow: 0 8px 0px var(--river);
+}
+
+#npc-text { margin: 0; font-weight: 500; font-size: 1.1rem; }
+
+/* --- THE CITY GRID --- */
 #game-viewport {
+    flex-grow: 1;
     display: flex;
     justify-content: center;
-    padding: 40px 0;
-    perspective: 1000px; /* Gives a slight 3D tilt */
+    align-items: center;
+    padding: 20px;
 }
 
 #map-grid {
     display: grid;
     grid-template-columns: repeat(10, 1fr);
-    gap: 12px;
-    padding: 20px;
+    gap: 8px;
     background: white;
-    border-radius: 40px;
-    box-shadow: 0 20px 50px rgba(93, 64, 55, 0.15);
-    transform: rotateX(10deg); /* Slight isometric lean */
+    padding: 15px;
+    border-radius: 35px;
+    box-shadow: 0 20px 0px var(--river);
 }
 
-/* --- CITY BUILDINGS --- */
 .tile {
-    width: 60px;
-    height: 60px;
+    width: 50px; height: 50px;
     background: var(--grass);
-    border-radius: 15px;
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 2rem;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    box-shadow: 0 6px 0px rgba(0,0,0,0.1);
+    font-size: 1.8rem;
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 2px solid rgba(0,0,0,0.05);
+}
+
+.tile:hover { transform: scale(1.2); cursor: pointer; }
+.built { background: var(--flower) !important; animation: pop 0.4s ease; }
+
+@keyframes pop { 0% { transform: scale(0); } 100% { transform: scale(1); } }
+
+/* --- PROMINENT BUTTONS --- */
+#controls {
+    padding: 30px;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+.btn-main, .btn-special {
+    padding: 18px 35px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    border: none;
+    border-radius: 50px;
     cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Quicksand', sans-serif;
+    text-transform: uppercase;
 }
 
-.tile:hover {
-    transform: translateY(-10px) scale(1.1);
-    background: var(--water);
+.btn-main {
+    background: var(--text);
+    color: white;
+    box-shadow: 0 6px 0px #3e2723;
 }
 
-/* Building States */
-.built {
-    background: #ffffff !important;
-    border: 2px solid var(--accent);
-    animation: bounceIn 0.5s ease;
-}
+#btn-nature { background: #81c784; box-shadow: 0 6px 0px #388e3c; }
 
-@keyframes bounceIn {
-    0% { transform: scale(0); }
-    60% { transform: scale(1.2); }
-    100% { transform: scale(1); }
-}
-
-/* --- 2026 TECH-GARDEN OVERRIDE --- */
-body.era-2026 {
-    background-color: #e0f2f1;
-}
-
-body.era-2026 .tile {
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.9);
-    border: 1px solid #b2dfdb;
-}
-
-body.era-2026 .built {
-    background: #4fc3f7 !important;
-    box-shadow: 0 0 15px rgba(79, 195, 247, 0.5);
+.btn-main:active, .btn-special:active {
+    transform: translateY(4px);
+    box-shadow: none;
 }
 
 .hidden { display: none !important; }
