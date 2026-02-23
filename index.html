@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Making America: Miami Valley Restoration</title>
+    <title>Making America: Miami Valley</title>
     <link rel="stylesheet" href="css/styles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
@@ -14,12 +14,13 @@
     </header>
 
     <main id="game-viewport">
-        <div id="ohio-canvas">
-            </div>
+        <div id="ohio-canvas"></div>
         
         <div id="npc-container">
             <div id="npc-avatar-img"></div> 
-            <div id="speech-bubble"><p id="npc-text">The Miami Valley is yours to shape, Governor.</p></div>
+            <div id="speech-bubble">
+                <p id="npc-text">Welcome, Governor. Barnaby is waiting in the trade tent!</p>
+            </div>
         </div>
     </main>
 
@@ -38,12 +39,14 @@
 
     <div id="shop-overlay" class="hidden">
         <div class="shop-content">
-            <h2>Frontier Trade</h2>
-            <div class="shop-item" onclick="engine.upgradeTools('Steel Plow', 500, 2)">
+            <div id="barnaby-avatar">🐻</div>
+            <h2>Barnaby's Trading Post</h2>
+            <p>"New tools for a new valley, Governor!"</p>
+            <div class="shop-item">
                 <span>Steel Plow (2x Yield)</span>
-                <button>$500</button>
+                <button onclick="engine.upgradeTools('Steel Plow', 500, 2)">$500</button>
             </div>
-            <button class="btn-close" onclick="ui.toggleShop()">Close</button>
+            <button class="btn-close" onclick="ui.toggleShop()">Close Trade</button>
         </div>
     </div>
 
