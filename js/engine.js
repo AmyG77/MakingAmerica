@@ -1,15 +1,9 @@
 const engine = {
-    gold: 500,
-    year: 1830,
-    isOptimized: false,
-    isNatureMode: false,
+    gold: 500, year: 1830, isOptimized: false, isNatureMode: false,
     history: [],
-
     assets: {
-        frontier: ['🏘️', '🌾', '⛪', '🪵'],
-        industrial: ['🏭', '🏬', '🚂', '🏦'],
-        modern: ['🏙️', '💻', '🔋', '🚁'],
-        nature: ['🌳', '⛲', '🦌', '🌸', '🦢']
+        frontier: ['🏘️', '🌾', '🪵'], industrial: ['🏭', '🏬', '🚂'],
+        modern: ['🏙️', '💻', '🔋'], nature: ['🌳', '⛲', '🐰']
     },
 
     init() {
@@ -23,79 +17,58 @@ const engine = {
         setInterval(() => this.tick(), 2000);
     },
 
-    // NPC Logic: Pip gives directions
-    updatePip(message) {
-        const textEl = document.getElementById('npc-text');
-        if (textEl) textEl.innerText = message;
+    updatePip(msg) { document.getElementById('npc-text').innerText = msg; },
+
+    toggleOptimization() {
+        this.isOptimized = !this.isOptimized;
+        this.isNatureMode = false;
+        this.updatePip(this.isOptimized ? "Full speed ahead! The Bureau loves efficiency!" : "Back to a slow, cozy pace.");
+        document.getElementById('efficiency').innerText = this.isOptimized ? "OPTIMIZED" : "STANDARD";
     },
 
     toggleNature() {
         this.isNatureMode = !this.isNatureMode;
         this.isOptimized = false;
-        this.updatePip("Oh! Planting gardens? The forest creatures thank you, but the bank may not...");
-        this.updateUI();
-    },
-
-    toggleOptimization() {
-        this.isOptimized = !this.isOptimized;
-        this.isNatureMode = false;
-        this.updatePip(this.isOptimized ? 
-            "Speeding up? I like your hustle! The Bureau loves efficient Governors." : 
-            "Back to a steady pace. Quality over quantity, I suppose!");
-        this.updateUI();
+        this.updatePip("Nature mode? How lovely! The forest creatures are so happy.");
+        document.getElementById('efficiency').innerText = "SUSTAINABLE";
     },
 
     build(tile) {
         if (tile.classList.contains('built')) return;
         let cost = this.isNatureMode ? 150 : (this.isOptimized ? 25 : 100);
-
         if (this.gold >= cost) {
-            this.gold -= cost;
-            tile.classList.add('built');
-            
-            const pool = this.isNatureMode ? this.assets.nature : this.getCurrentAsset();
+            this.gold -= cost; tile.classList.add('built');
+            const pool = this.isNatureMode ? this.assets.nature : (this.year < 1920 ? this.assets.frontier : (this.year < 1980 ? this.assets.industrial : this.assets.modern));
             tile.innerText = pool[Math.floor(Math.random() * pool.length)];
-            
             if (this.isOptimized) tile.dataset.truth = "true";
-            this.updateUI();
+            document.getElementById('gold').innerText = Math.floor(this.gold);
         } else {
-            this.updatePip("We're short on gold! Try waiting for the next season's dividends.");
+            this.updatePip("We need more gold! Wait for the seasons to pass.");
         }
-    },
-
-    getCurrentAsset() {
-        if (this.year < 1890) return this.assets.frontier;
-        if (this.year < 1960) return this.assets.industrial;
-        return this.assets.modern;
     },
 
     tick() {
         this.year += this.isOptimized ? 5 : (this.isNatureMode ? 0.5 : 1);
         this.gold += this.isOptimized ? 1000 : (this.isNatureMode ? 50 : 200);
-        
-        // Mid-game NPC prompts
-        if (this.year > 1900 && this.gold < 1000) this.updatePip("1900 already? We need more growth if we want to hit the 2026 Audit!");
-        
-        this.updateUI();
-        if (this.year >= 2026) this.endGame();
-    },
-
-    updateUI() {
         document.getElementById('year').innerText = Math.floor(this.year);
         document.getElementById('gold').innerText = Math.floor(this.gold);
-        document.getElementById('efficiency').innerText = this.isOptimized ? "OPTIMIZED" : (this.isNatureMode ? "SUSTAINABLE" : "STANDARD");
+
+        if (this.year >= 2026) this.endGame();
     },
 
     endGame() {
         this.year = 2026;
-        this.updateUI();
-        this.updatePip("It's 2026. The simulation is complete. It's time to see what lies beneath our garden.");
-        document.body.classList.add('era-2026');
-        document.getElementById('btn-audit')?.classList.remove('hidden');
-        document.getElementById('btn-foundations')?.classList.remove('hidden');
-        document.getElementById('btn-optimize')?.classList.add('hidden');
-        document.getElementById('btn-nature')?.classList.add('hidden');
+        this.updatePip("It is 2026. The city is finished. It's time to see what you've really built.");
+        
+        // This is the trigger that was likely missing or failing
+        if (window.ui) {
+            window.ui.switchToModern();
+        } else {
+            // Backup if ui-manager fails
+            document.body.classList.add('era-2026');
+            document.getElementById('btn-audit').classList.remove('hidden');
+            document.getElementById('btn-foundations').classList.remove('hidden');
+        }
     }
 };
-
 window.onload = () => engine.init();
