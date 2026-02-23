@@ -1,9 +1,13 @@
 const engine = {
-    gold: 500, year: 1830, isOptimized: false, isNatureMode: false,
-    history: [],
+    gold: 800, year: 1830, isOptimized: false,
+    history: [], // This is the Moral Debt Ledger
+    currentAction: 'sow',
+
     assets: {
-        frontier: ['🏘️', '🌾', '🪵'], industrial: ['🏭', '🏬', '🚂'],
-        modern: ['🏙️', '💻', '🔋'], nature: ['🌳', '⛲', '🐰']
+        early: ['🌲', '🌽', '🛖'], // Frontier Ohio
+        mid: ['🧱', '🏭', '🏘️'],  // Rising Rust Belt
+        late: ['🏗️', '🏚️', '🏢'], // Modern Ohio
+        nature: ['🦌', '🌻', '🦅']
     },
 
     init() {
@@ -17,75 +21,55 @@ const engine = {
         setInterval(() => this.tick(), 2000);
     },
 
-    updatePip(msg) { document.getElementById('npc-text').innerText = msg; },
+    setAction(a) { this.currentAction = a; },
 
     toggleOptimization() {
         this.isOptimized = !this.isOptimized;
-        this.isNatureMode = false;
-        this.updatePip(this.isOptimized ? "Full speed ahead! The Bureau loves efficiency!" : "Back to a slow, cozy pace.");
-        document.getElementById('efficiency').innerText = this.isOptimized ? "OPTIMIZED" : "STANDARD";
-    },
-
-    toggleNature() {
-        this.isNatureMode = !this.isNatureMode;
-        this.isOptimized = false;
-        this.updatePip("Nature mode? How lovely! The forest creatures are so happy.");
-        document.getElementById('efficiency').innerText = "SUSTAINABLE";
+        document.getElementById('efficiency').innerText = this.isOptimized ? "DEALINGS" : "STANDARD";
+        const msg = this.isOptimized ? "New treaties signed! Growth will be rapid." : "Back to standard cultivation.";
+        document.getElementById('npc-text').innerText = msg;
     },
 
     build(tile) {
         if (tile.classList.contains('built')) return;
-        
-        let cost = this.isNatureMode ? 150 : (this.isOptimized ? 25 : 100);
+        let cost = this.isOptimized ? 20 : 100;
 
         if (this.gold >= cost) {
             this.gold -= cost;
             tile.classList.add('built');
             
-            const pool = this.isNatureMode ? this.assets.nature : (this.year < 1920 ? this.assets.frontier : (this.year < 1980 ? this.assets.industrial : this.assets.modern));
-            tile.innerText = pool[Math.floor(Math.random() * pool.length)];
-            
-            // --- THE FIX: RECORDING THE DEBT ---
-            if (this.isOptimized) {
-                tile.dataset.truth = "true";
-                const logEntry = { year: Math.floor(this.year), action: "Aggressive Development" };
-                this.history.push(logEntry);
-                
-                // Save to browser memory so refresh doesn't wipe the debt
-                localStorage.setItem('moral_debt', JSON.stringify(this.history));
-            } else if (this.isNatureMode) {
-                this.history.push({ year: Math.floor(this.year), action: "Conservation Effort" });
-            }
-            // -----------------------------------
+            // Choose asset based on era
+            const era = this.year < 1880 ? this.assets.early : (this.year < 1960 ? this.assets.mid : this.assets.late);
+            tile.innerText = era[Math.floor(Math.random() * era.length)];
 
-            document.getElementById('gold').innerText = Math.floor(this.gold);
-        } else {
-            this.updatePip("We need more gold! Wait for the seasons to pass.");
+            // RECORD MORAL DEBT
+            if (this.isOptimized) {
+                const eraContext = this.year < 1860 ? "Land Cession Treaty" : "Industrial Displacement";
+                this.history.push({ year: Math.floor(this.year), action: eraContext });
+                tile.style.backgroundColor = "#ffd3b6"; // Subtle visual indicator
+            }
+
+            this.updateUI();
         }
     },
 
     tick() {
-        this.year += this.isOptimized ? 5 : (this.isNatureMode ? 0.5 : 1);
-        this.gold += this.isOptimized ? 1000 : (this.isNatureMode ? 50 : 200);
+        this.year += this.isOptimized ? 4 : 1;
+        this.gold += this.isOptimized ? 1000 : 200;
+        this.updateUI();
+        if (this.year >= 2026) this.endGame();
+    },
+
+    updateUI() {
         document.getElementById('year').innerText = Math.floor(this.year);
         document.getElementById('gold').innerText = Math.floor(this.gold);
-
-        if (this.year >= 2026) this.endGame();
     },
 
     endGame() {
         this.year = 2026;
-        this.updatePip("It is 2026. The city is finished. It's time to see what you've really built.");
-        
-        // This is the trigger that was likely missing or failing
-        if (window.ui) {
-            window.ui.switchToModern();
-        } else {
-            // Backup if ui-manager fails
-            document.body.classList.add('era-2026');
-            document.getElementById('btn-audit').classList.remove('hidden');
-            document.getElementById('btn-foundations').classList.remove('hidden');
-        }
+        document.getElementById('btn-audit').classList.remove('hidden');
+        document.getElementById('npc-text').innerText = "The Ohio simulation is complete. Review your Audit.";
     }
 };
+
 window.onload = () => engine.init();
