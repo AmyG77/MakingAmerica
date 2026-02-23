@@ -21,18 +21,18 @@
         <div id="npc-container">
             <div id="npc-avatar">🦊</div>
             <div id="speech-bubble">
-                <p id="npc-text">Welcome, Governor! Click a tile to plant our first settlement. The Bureau is watching!</p>
+                <p id="npc-text">Welcome, Governor! Click the land to cultivate your city. The Bureau is watching!</p>
             </div>
         </div>
     </main>
 
-    <footer id="controls">
-        <button id="btn-optimize" class="btn-main" onclick="engine.toggleOptimization()">⚡ OPTIMIZE GROWTH</button>
-        <button id="btn-nature" class="btn-main" onclick="engine.toggleNature()">🌿 CULTIVATE NATURE</button>
+    <nav id="command-center">
+        <button id="btn-optimize" class="btn-giant" onclick="engine.toggleOptimization()">⚡ OPTIMIZE GROWTH</button>
+        <button id="btn-nature" class="btn-giant" onclick="engine.toggleNature()">🌿 CULTIVATE NATURE</button>
         
         <button id="btn-foundations" class="btn-special hidden" onclick="ui.toggleXray()">🔍 VIEW FOUNDATIONS</button>
-        <button id="btn-audit" class="btn-special hidden" onclick="audit.generate()">📜 CLAIM FINAL DIVIDEND</button>
-    </footer>
+        <button id="btn-audit" class="btn-special hidden" onclick="audit.generate()">📜 DOWNLOAD FINAL AUDIT</button>
+    </nav>
 
     <script src="js/data.js"></script>
     <script src="js/ui-manager.js"></script>
