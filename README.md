@@ -16,4 +16,3 @@ Structural Accountability: Every choice is logged in the Historical Ledger, culm
 ⚠️ A Note on Participation
 This simulation utilizes real-world historical data mapped to modern economic outcomes. By entering the portal, you agree to the terms laid out in the EULA (Section 3.1) regarding systemic accountability and the final distribution of the National Dividend.
 
-strategy-game simulation history educational audit social-commentary javascript web-app
