@@ -1,39 +1,42 @@
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@700&display=swap');
 
-body {
-    background: #e8d3b9; margin: 0; font-family: 'Quicksand', sans-serif;
-}
+body { background: #e8d3b9; margin: 0; font-family: 'Quicksand', sans-serif; }
 
 #ohio-canvas {
     position: relative; width: 1000px; height: 600px;
-    background: #a8e6cf; margin: 20px auto; border: 10px solid white;
-    border-radius: 40px; box-shadow: 0 20px 60px rgba(0,0,0,0.1);
-    overflow: hidden; cursor: url('assets/cursor-plow.png'), crosshair;
+    background: #a8e6cf; margin: 20px auto;
+    border: 10px solid white; border-radius: 40px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.1); overflow: hidden;
 }
 
-/* Sprite Layering Logic */
 .entity {
     position: absolute; width: 120px; height: 120px;
     background-size: contain; background-repeat: no-repeat;
     background-position: bottom center;
-    transform: translate(-50%, -100%); /* Ground the sprite at the click point */
-    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform: translate(-50%, -100%);
+    transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-/* Asset Placeholders - Replace with your PNG files */
+/* ERA SPRITES */
 .entity.corn { background-image: url('assets/corn.png'); }
 .entity.factory { background-image: url('assets/factory.png'); }
 .entity.mall { background-image: url('assets/mall.png'); }
-.entity.decay { background-image: url('assets/abandoned.png'); filter: grayscale(100%) brightness(50%); }
+.entity.decay { background-image: url('assets/abandoned.png'); filter: grayscale(100%) opacity(0.7); }
 
-#npc-avatar-img {
-    width: 90px; height: 90px;
-    background: url('assets/pip-avatar.png') center/cover;
-    border-radius: 50%; border: 4px solid white;
+/* THE RESTORATION SPRITE */
+.entity.ancient-forest { 
+    background-image: url('assets/ancient-oak.png'); 
+    filter: drop-shadow(0 0 10px rgba(168, 230, 207, 0.8));
+    animation: bloom 1s ease-out;
 }
 
-#shop-overlay {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.8); display: flex; justify-content: center; align-items: center; z-index: 1000;
+@keyframes bloom {
+    0% { transform: translate(-50%, -100%) scale(0) rotate(-10deg); opacity: 0; }
+    100% { transform: translate(-50%, -100%) scale(1) rotate(0deg); opacity: 1; }
 }
-.shop-content { background: #fff9e6; padding: 40px; border-radius: 30px; border: 6px solid #d2b48c; width: 450px; }
+
+.btn-restore {
+    background: #81c784; padding: 20px 40px; font-size: 1.2rem;
+    color: white; border-radius: 50px; border: none; font-weight: 900;
+    box-shadow: 0 8px 0 #388e3c; cursor: pointer;
+}
