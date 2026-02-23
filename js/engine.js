@@ -1,68 +1,65 @@
 const engine = {
-    gold: 100,
+    gold: 500,
     year: 1830,
     isOptimized: false,
     history: [],
 
-    init() {
-        console.log("Bureau System: Initializing Frontier...");
-        const grid = document.getElementById('map-grid');
-        
-        if (!grid) {
-            console.error("FATAL ERROR: #map-grid not found in index.html");
-            return;
-        }
+    // Building Dictionary based on Era
+    assets: {
+        frontier: ['🏘️', '🌾', '⛪', '🪵'],
+        industrial: ['🏭', '🏬', '🚂', '🏦'],
+        suburban: ['🏡', '🏪', '🏫', '⛽'],
+        modern: ['🏙️', '💻', '🔋', '🚁']
+    },
 
-        // Create 100 land tiles
+    init() {
+        console.log("City Architect: Initializing 1830 Grid...");
+        const grid = document.getElementById('map-grid');
         for (let i = 0; i < 100; i++) {
             let tile = document.createElement('div');
             tile.className = 'tile';
-            
-            // The logic for settling land
-            tile.onclick = () => {
-                this.build(tile);
-            };
-            
+            tile.onclick = () => this.build(tile);
             grid.appendChild(tile);
         }
-        console.log("Bureau System: 100 Tiles Generated.");
-
-        // Start the master clock
         setInterval(() => this.tick(), 2000);
     },
 
     toggleOptimization() {
         this.isOptimized = !this.isOptimized;
-        const display = document.getElementById('efficiency');
-        if (display) {
-            display.innerText = this.isOptimized ? "OPTIMIZED" : "STANDARD";
-            console.log(`System Status: Optimization ${this.isOptimized ? 'Active' : 'Deactivated'}`);
-        }
+        document.getElementById('efficiency').innerText = this.isOptimized ? "OPTIMIZED" : "STANDARD";
+    },
+
+    getCurrentAsset() {
+        if (this.year < 1880) return this.assets.frontier;
+        if (this.year < 1940) return this.assets.industrial;
+        if (this.year < 1990) return this.assets.suburban;
+        return this.assets.modern;
     },
 
     build(tile) {
-        let cost = this.isOptimized ? 5 : 20;
+        let cost = this.isOptimized ? 25 : 100;
         
         if (this.gold >= cost && !tile.classList.contains('built')) {
             this.gold -= cost;
             tile.classList.add('built');
             
+            // Select building based on era
+            const eraBuildings = this.getCurrentAsset();
+            tile.innerText = eraBuildings[Math.floor(Math.random() * eraBuildings.length)];
+            
             if (this.isOptimized) {
-                tile.style.backgroundColor = "#b71c1c"; // Red highlight for "Optimized" land
-                this.history.push({ year: this.year, action: "Optimized Expansion" });
+                tile.dataset.truth = "true";
+                this.history.push({ year: this.year, action: "Aggressive Development" });
+                tile.style.borderColor = "#ff8b94"; // Hint of the "Truth"
             }
             
             this.updateUI();
-            console.log(`Action: Land Settled. Cost: ${cost}. Remaining Gold: ${this.gold}`);
-        } else if (this.gold < cost) {
-            console.warn("Insufficient Capital for further expansion.");
         }
     },
 
     tick() {
-        // The core "Progress Trap"
         this.year += this.isOptimized ? 5 : 1;
-        this.gold += this.isOptimized ? 500 : 50;
+        this.gold += this.isOptimized ? 1000 : 200; // Optimization = Massive Capital
         
         this.updateUI();
 
@@ -72,28 +69,18 @@ const engine = {
     },
 
     updateUI() {
-        const yearEl = document.getElementById('year');
-        const goldEl = document.getElementById('gold');
-        
-        if (yearEl) yearEl.innerText = this.year;
-        if (goldEl) goldEl.innerText = this.gold;
+        document.getElementById('year').innerText = this.year;
+        document.getElementById('gold').innerText = this.gold;
     },
 
     endGame() {
-        console.log("2026 AUDIT TRIGGERED.");
         this.year = 2026;
         this.updateUI();
-        
-        // Show the Audit and X-Ray buttons
+        document.body.classList.add('era-2026');
         document.getElementById('btn-audit')?.classList.remove('hidden');
         document.getElementById('btn-foundations')?.classList.remove('hidden');
-        
-        // Change the world theme to Modern
-        if (typeof ui !== 'undefined') {
-            ui.switchToModern();
-        }
+        document.getElementById('btn-optimize')?.classList.add('hidden');
     }
 };
 
-// Launch the Bureau
 window.onload = () => engine.init();
