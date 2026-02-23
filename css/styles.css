@@ -1,41 +1,152 @@
+/* --- GLOBAL THEME & VARIABLES --- */
 :root {
-    --bg: #d2b48c; /* Tan/Sepia */
-    --text: #3e2723;
-    --accent: #8d6e63;
+    --bg: #d2b48c;       /* 1830 Tan/Sepia */
+    --text: #3e2723;     /* Dark Brown Text */
+    --accent: #8d6e63;   /* Frontier Wood */
+    --modern-bg: #f4f7f6;
+    --modern-text: #1a1a1b;
+    --modern-blue: #0070f3;
 }
 
 body {
     background-color: var(--bg);
     margin: 0;
+    padding: 0;
     color: var(--text);
     font-family: 'Courier New', Courier, monospace;
+    transition: background-color 1.5s ease, color 1.5s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* --- HEADERS & HUD --- */
+#hud {
+    width: 100%;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.05);
+    display: flex;
+    justify-content: space-around;
+    font-weight: bold;
+    border-bottom: 2px solid var(--accent);
+    box-sizing: border-box;
+}
+
+.stat {
+    font-size: 1.2rem;
+    text-transform: uppercase;
+}
+
+/* --- GAME VIEWPORT & GRID --- */
+#game-viewport {
+    position: relative;
+    margin-top: 30px;
+    width: 90vw;
+    max-width: 800px;
 }
 
 #map-grid {
     display: grid;
-    grid-template-columns: repeat(10, 1fr); /* 10 columns */
-    gap: 2px;
-    background: #5d4037;
-    width: 90vw;
-    margin: 20px auto;
-    border: 5px solid #3e2723;
+    grid-template-columns: repeat(10, 1fr); /* 10x10 Grid */
+    gap: 4px;
+    background: #5d4037; /* Soil Color */
+    padding: 10px;
+    border: 8px solid #3e2723;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
 }
 
 .tile {
-    background: #e0c9a6; /* Land color */
+    background: #e0c9a6; /* Unsettled Land */
     aspect-ratio: 1 / 1;
     border: 1px solid rgba(0,0,0,0.1);
     transition: all 0.2s ease;
+    cursor: crosshair;
 }
 
 .tile:hover {
     background: #f5f5dc;
-    cursor: crosshair;
+    filter: brightness(1.1);
 }
 
-/* This is what shows up when you click/build */
+/* Visual state for settled land */
 .built {
-    background: #8b4513 !important; /* Settled land */
+    background: #8b4513 !important; /* Settled/Wood Cabin Color */
 }
 
-.hidden { display: none; }
+/* --- THE 2026 MODERN OVERRIDE --- */
+body.era-2026 {
+    background-color: var(--modern-bg);
+    color: var(--modern-text);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+body.era-2026 #hud {
+    background: #ffffff;
+    border-bottom: 1px solid #ddd;
+    color: var(--modern-text);
+}
+
+body.era-2026 #map-grid {
+    background: #ffffff;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+}
+
+body.era-2026 .tile {
+    background: #ffffff;
+    border: 1px solid #f0f0f0;
+}
+
+body.era-2026 .built {
+    background: var(--modern-blue) !important; /* Tech Hub Blue */
+    border-radius: 2px;
+}
+
+/* --- X-RAY & FOUNDATIONS --- */
+#truth-overlay {
+    position: absolute;
+    top: 0; left: 0; 
+    width: 100%; height: 100%;
+    background: rgba(183, 28, 28, 0.2); /* Red tint for the 'Truth' */
+    pointer-events: none;
+    z-index: 10;
+    transition: opacity 0.5s ease;
+}
+
+/* --- UI CONTROLS & BUTTONS --- */
+#controls {
+    margin-top: 30px;
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+button {
+    padding: 12px 24px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    transition: transform 0.1s active;
+    background: var(--accent);
+    color: white;
+}
+
+button:hover {
+    filter: brightness(1.1);
+}
+
+#btn-audit {
+    background-color: #2e7d32; /* Success Green */
+}
+
+#btn-foundations {
+    background-color: #c62828; /* Warning Red */
+}
+
+/* --- UTILITY --- */
+.hidden {
+    display: none !important;
+}
