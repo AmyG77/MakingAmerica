@@ -1,13 +1,9 @@
 const engine = {
     gold: 800, year: 1830, isOptimized: false,
-    history: [], // This is the Moral Debt Ledger
-    currentAction: 'sow',
-
+    history: [],
     assets: {
-        early: ['🌲', '🌽', '🛖'], // Frontier Ohio
-        mid: ['🧱', '🏭', '🏘️'],  // Rising Rust Belt
-        late: ['🏗️', '🏚️', '🏢'], // Modern Ohio
-        nature: ['🦌', '🌻', '🦅']
+        frontier: ['🛖', '🌽', '🪵'], industrial: ['🏭', '🏗️', '🚂'],
+        modern: ['🏢', '💻', '🔋'], nature: ['🌳', '🦌', '🌸']
     },
 
     init() {
@@ -21,55 +17,45 @@ const engine = {
         setInterval(() => this.tick(), 2000);
     },
 
-    setAction(a) { this.currentAction = a; },
-
     toggleOptimization() {
         this.isOptimized = !this.isOptimized;
         document.getElementById('efficiency').innerText = this.isOptimized ? "DEALINGS" : "STANDARD";
-        const msg = this.isOptimized ? "New treaties signed! Growth will be rapid." : "Back to standard cultivation.";
-        document.getElementById('npc-text').innerText = msg;
     },
 
     build(tile) {
         if (tile.classList.contains('built')) return;
-        let cost = this.isOptimized ? 20 : 100;
+        let cost = this.isOptimized ? 25 : 100;
 
         if (this.gold >= cost) {
             this.gold -= cost;
             tile.classList.add('built');
             
-            // Choose asset based on era
-            const era = this.year < 1880 ? this.assets.early : (this.year < 1960 ? this.assets.mid : this.assets.late);
+            // Asset selection
+            const era = this.year < 1890 ? this.assets.frontier : (this.year < 1970 ? this.assets.industrial : this.assets.modern);
             tile.innerText = era[Math.floor(Math.random() * era.length)];
 
-            // RECORD MORAL DEBT
             if (this.isOptimized) {
-                const eraContext = this.year < 1860 ? "Land Cession Treaty" : "Industrial Displacement";
-                this.history.push({ year: Math.floor(this.year), action: eraContext });
-                tile.style.backgroundColor = "#ffd3b6"; // Subtle visual indicator
+                tile.dataset.truth = "true";
+                this.history.push({ year: Math.floor(this.year), action: "Frontier Dealing" });
+                tile.style.backgroundColor = "#ffebcc"; 
             }
-
-            this.updateUI();
+            document.getElementById('gold').innerText = Math.floor(this.gold);
         }
     },
 
     tick() {
-        this.year += this.isOptimized ? 4 : 1;
-        this.gold += this.isOptimized ? 1000 : 200;
-        this.updateUI();
-        if (this.year >= 2026) this.endGame();
-    },
-
-    updateUI() {
+        this.year += this.isOptimized ? 5 : 1;
+        this.gold += this.isOptimized ? 800 : 150;
         document.getElementById('year').innerText = Math.floor(this.year);
         document.getElementById('gold').innerText = Math.floor(this.gold);
+        if (this.year >= 2026) this.endGame();
     },
 
     endGame() {
         this.year = 2026;
         document.getElementById('btn-audit').classList.remove('hidden');
-        document.getElementById('npc-text').innerText = "The Ohio simulation is complete. Review your Audit.";
+        document.getElementById('ohio-world').style.transform = "rotateX(0deg) rotateZ(0deg) scale(0.8)";
+        document.getElementById('npc-text').innerText = "2026 Reached. The 3D model is locked for Audit.";
     }
 };
-
 window.onload = () => engine.init();
