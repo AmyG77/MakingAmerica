@@ -2,8 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Making Ohio | 3D Frontier Garden</title>
+    <title>Making Ohio | Frontier Audit</title>
     <link rel="stylesheet" href="css/styles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
@@ -15,29 +14,27 @@
     </header>
 
     <main id="game-viewport">
-        <div class="scene">
-            <div id="ohio-world">
-                <div id="map-grid"></div>
+        <div id="ohio-canvas">
             </div>
-        </div>
         
         <div id="npc-container">
             <div id="npc-avatar">🦊</div>
-            <div id="speech-bubble"><p id="npc-text">Welcome to Ohio! Click 'DEALINGS' to grow faster, but the Bureau is watching...</p></div>
+            <div id="speech-bubble">
+                <p id="npc-text">Governor, the Shawnee lands are vast. Will you cultivate with care, or use 'DEALINGS' to clear the path?</p>
+            </div>
         </div>
     </main>
 
     <nav id="command-center">
         <div class="btn-group">
-            <button class="btn-garden" onclick="engine.setAction('plow')">🚜 PLOW</button>
-            <button id="btn-rotate" class="btn-garden" onclick="ui.toggleRotation()">🔄 ROTATE</button>
+            <button class="btn-garden" onclick="engine.setAction('nature')">🌲 CONSERVE</button>
+            <button class="btn-garden" onclick="engine.setAction('build')">🏘️ SETTLE</button>
         </div>
         <button id="btn-charge" class="btn-giant" onclick="engine.toggleOptimization()">⚡ DEALINGS</button>
-        <button id="btn-audit" class="btn-special hidden" onclick="audit.generate()">📜 SETTLEMENT AUDIT</button>
+        <button id="btn-audit" class="btn-special hidden" onclick="audit.generate()">📜 DOWNLOAD FINAL AUDIT</button>
     </nav>
 
     <script src="js/data.js"></script>
-    <script src="js/ui-manager.js"></script>
     <script src="js/audit.js"></script>
     <script src="js/engine.js"></script>
 </body>
