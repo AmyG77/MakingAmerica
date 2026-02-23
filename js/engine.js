@@ -1,78 +1,57 @@
 const engine = {
     gold: 800, year: 1830, isOptimized: false,
-    history: [], 
-    currentMode: 'build',
-
-    assets: {
-        nature: ['🌳', '🌻', '🦌'],
-        frontier: ['🛖', '🌽', '🪵'],
-        industrial: ['🏭', '🏗️', '🚂'],
-        modern: ['🏢', '🔋', '🚁']
-    },
+    history: [], multiplier: 1, currentEra: "FRONTIER",
 
     init() {
-        const canvas = document.getElementById('ohio-canvas');
-        canvas.onclick = (e) => this.handleAction(e);
+        document.getElementById('ohio-canvas').onclick = (e) => this.build(e);
         setInterval(() => this.tick(), 2000);
     },
 
-    setAction(mode) { this.currentMode = mode; },
-
-    toggleOptimization() {
-        this.isOptimized = !this.isOptimized;
-        document.getElementById('efficiency').innerText = this.isOptimized ? "DEALINGS" : "STANDARD";
+    upgradeTools(name, cost, mult) {
+        if (this.gold >= cost) {
+            this.gold -= cost;
+            this.multiplier = mult;
+            document.getElementById('npc-text').innerText = `With the ${name}, the valley's output will triple.`;
+            this.updateUI();
+        }
     },
 
-    handleAction(e) {
+    build(e) {
+        let cost = this.isOptimized ? 25 : 150;
+        if (this.gold < cost) return;
+
         const rect = e.currentTarget.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
 
-        let cost = this.isOptimized ? 20 : 100;
-        if (this.gold < cost) return;
-
         this.gold -= cost;
-        this.placeEntity(x, y);
+        this.placeSprite(x, y);
         this.updateUI();
     },
 
-    placeEntity(x, y) {
-        const canvas = document.getElementById('ohio-canvas');
-        
-        // 1. Create Ground Impact
-        const dirt = document.createElement('div');
-        dirt.className = `clearing ${this.isOptimized ? 'optimized' : ''}`;
-        dirt.style.left = `${x}px`; dirt.style.top = `${y}px`;
-        canvas.appendChild(dirt);
-
-        // 2. Create Building/Tree
+    placeSprite(x, y) {
         const el = document.createElement('div');
-        el.className = 'entity';
-        el.style.left = `${x}px`; el.style.top = `${y}px`;
-        el.style.zIndex = Math.floor(y); // Depth Sort
-
-        const pool = this.currentMode === 'nature' ? this.assets.nature : 
-                    (this.year < 1890 ? this.assets.frontier : 
-                    (this.year < 1960 ? this.assets.industrial : this.assets.modern));
+        let type = "corn";
         
-        el.innerText = pool[Math.floor(Math.random() * pool.length)];
-        canvas.appendChild(el);
+        if (this.year > 1890) type = "factory";
+        if (this.year > 1980) type = "mall";
+        if (this.year > 2010) type = "decay";
 
-        // 3. Record for Audit
-        if (this.isOptimized || this.currentMode === 'build') {
-            this.history.push({
-                x, y, year: Math.floor(this.year), 
-                isDeal: this.isOptimized, 
-                type: this.currentMode 
-            });
-        }
+        el.className = `entity ${type}`;
+        el.style.left = `${x}px`;
+        el.style.top = `${y}px`;
+        el.style.zIndex = Math.floor(y); // Depth stacking
+
+        document.getElementById('ohio-canvas').appendChild(el);
+        if (this.isOptimized) this.history.push({ year: Math.floor(this.year), type });
     },
 
     tick() {
         this.year += this.isOptimized ? 5 : 1;
-        this.gold += this.isOptimized ? 1000 : 200;
+        this.gold += (this.isOptimized ? 1500 : 300) * this.multiplier;
+        
+        if (this.year > 2026) this.endGame();
         this.updateUI();
-        if (this.year >= 2026) this.endGame();
     },
 
     updateUI() {
@@ -83,7 +62,7 @@ const engine = {
     endGame() {
         this.year = 2026;
         document.getElementById('btn-audit').classList.remove('hidden');
-        document.getElementById('npc-text').innerText = "The Ohio simulation has concluded. Your Audit report is ready for download.";
+        document.getElementById('npc-text').innerText = "The cycle of the Miami Valley is complete.";
     }
 };
 window.onload = () => engine.init();
