@@ -2,35 +2,34 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Making America</title>
+    <title>Making Ohio 3D | The Bureau</title>
     <link rel="stylesheet" href="css/styles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body class="era-1830">
     <header id="hud">
         <div class="stat">YEAR: <span id="year">1830</span></div>
-        <div class="stat">NET WORTH: <span id="gold">800</span></div>
+        <div class="stat">NET WORTH: $<span id="gold">800</span></div>
         <div class="stat">EFFICIENCY: <span id="efficiency">STANDARD</span></div>
     </header>
 
     <main id="game-viewport">
-        <div id="ohio-wrapper">
-            <div id="map-grid"></div>
+        <div class="scene">
+            <div id="ohio-world">
+                <div id="map-grid"></div>
+            </div>
         </div>
         
         <div id="npc-container">
             <div id="npc-avatar">🦊</div>
-            <div id="speech-bubble"><p id="npc-text">Welcome to the Ohio Territory! Use 'Dealings' to expedite our growth.</p></div>
+            <div id="speech-bubble"><p id="npc-text">Welcome to the 3D Frontier! Every 'Dealing' builds a taller tower.</p></div>
         </div>
     </main>
 
     <nav id="command-center">
-        <div class="btn-group">
-            <button class="btn-garden" onclick="engine.setAction('plow')">🚜 PLOW</button>
-            <button class="btn-garden" onclick="engine.setAction('sow')">🌱 SOW SEEDS</button>
-        </div>
+        <button class="btn-garden" onclick="engine.setAction('plow')">🚜 PLOW</button>
         <button id="btn-charge" class="btn-giant" onclick="engine.toggleOptimization()">⚡ DEALINGS</button>
-        <button id="btn-audit" class="btn-special hidden" onclick="audit.generate()">📜 VIEW SETTLEMENT AUDIT</button>
+        <button id="btn-audit" class="btn-special hidden" onclick="audit.generate()">📜 SETTLEMENT AUDIT</button>
     </nav>
 
     <script src="js/data.js"></script>
