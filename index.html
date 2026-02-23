@@ -2,36 +2,35 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Making America | Garden City</title>
+    <title>Making Ohio | The Frontier Garden</title>
     <link rel="stylesheet" href="css/styles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body class="era-1830">
     <header id="hud">
         <div class="stat">YEAR: <span id="year">1830</span></div>
-        <div class="stat">NET WORTH: $<span id="gold">500</span></div>
+        <div class="stat">NET WORTH: <span id="gold">800</span></div>
         <div class="stat">EFFICIENCY: <span id="efficiency">STANDARD</span></div>
     </header>
 
     <main id="game-viewport">
-        <div id="map-grid"></div>
-        <div id="truth-overlay" class="hidden"></div>
+        <div id="ohio-wrapper">
+            <div id="map-grid"></div>
+        </div>
         
         <div id="npc-container">
             <div id="npc-avatar">🦊</div>
-            <div id="speech-bubble">
-                <p id="npc-text">Welcome, Governor! Click the land to cultivate your city. The Bureau is watching!</p>
-            </div>
+            <div id="speech-bubble"><p id="npc-text">Welcome to the Ohio Territory! Use 'Dealings' to expedite our growth.</p></div>
         </div>
     </main>
 
     <nav id="command-center">
-        <button id="btn-optimize" class="btn-giant" onclick="engine.toggleOptimization()">⚡ OPTIMIZE GROWTH</button>
-        <button id="btn-nature" class="btn-giant" onclick="engine.toggleNature()">🌿 CULTIVATE NATURE</button>
-        
-        <button id="btn-foundations" class="btn-special hidden" onclick="ui.toggleXray()">🔍 VIEW FOUNDATIONS</button>
-        <button id="btn-audit" class="btn-special hidden" onclick="audit.generate()">📜 DOWNLOAD FINAL AUDIT</button>
+        <div class="btn-group">
+            <button class="btn-garden" onclick="engine.setAction('plow')">🚜 PLOW</button>
+            <button class="btn-garden" onclick="engine.setAction('sow')">🌱 SOW SEEDS</button>
+        </div>
+        <button id="btn-charge" class="btn-giant" onclick="engine.toggleOptimization()">⚡ DEALINGS</button>
+        <button id="btn-audit" class="btn-special hidden" onclick="audit.generate()">📜 VIEW SETTLEMENT AUDIT</button>
     </nav>
 
     <script src="js/data.js"></script>
