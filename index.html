@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Making America | Governor Portal</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
+</head>
+<body class="era-1830">
+    <div id="app">
+        <header id="hud">
+            <div class="stat">YEAR: <span id="year">1830</span></div>
+            <div class="stat">NET WORTH: $<span id="gold">100</span></div>
+            <div class="stat">EFFICIENCY: <span id="efficiency">STANDARD</span></div>
+        </header>
+
+        <div id="game-viewport">
+            <div id="map-grid"></div>
+            <div id="truth-overlay" class="hidden"></div>
+        </div>
+
+        <aside id="controls">
+            <div id="ticker">Waiting for Governor's Directive...</div>
+            <button id="btn-optimize" onclick="engine.toggleOptimization()">OPTIMIZE LABOR (10x Speed)</button>
+            <button id="btn-foundations" class="hidden" onclick="ui.toggleXray()">VIEW FOUNDATIONS</button>
+            <button id="btn-audit" class="hidden" onclick="audit.generate()">CLAIM FINAL DIVIDEND</button>
+        </aside>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script src="js/ui-manager.js"></script>
+    <script src="js/audit.js"></script>
+    <script src="js/engine.js"></script>
+</body>
+</html>
