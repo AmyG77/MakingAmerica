@@ -35,12 +35,29 @@ const engine = {
 
     build(tile) {
         if (tile.classList.contains('built')) return;
+        
         let cost = this.isNatureMode ? 150 : (this.isOptimized ? 25 : 100);
+
         if (this.gold >= cost) {
-            this.gold -= cost; tile.classList.add('built');
+            this.gold -= cost;
+            tile.classList.add('built');
+            
             const pool = this.isNatureMode ? this.assets.nature : (this.year < 1920 ? this.assets.frontier : (this.year < 1980 ? this.assets.industrial : this.assets.modern));
             tile.innerText = pool[Math.floor(Math.random() * pool.length)];
-            if (this.isOptimized) tile.dataset.truth = "true";
+            
+            // --- THE FIX: RECORDING THE DEBT ---
+            if (this.isOptimized) {
+                tile.dataset.truth = "true";
+                const logEntry = { year: Math.floor(this.year), action: "Aggressive Development" };
+                this.history.push(logEntry);
+                
+                // Save to browser memory so refresh doesn't wipe the debt
+                localStorage.setItem('moral_debt', JSON.stringify(this.history));
+            } else if (this.isNatureMode) {
+                this.history.push({ year: Math.floor(this.year), action: "Conservation Effort" });
+            }
+            // -----------------------------------
+
             document.getElementById('gold').innerText = Math.floor(this.gold);
         } else {
             this.updatePip("We need more gold! Wait for the seasons to pass.");
