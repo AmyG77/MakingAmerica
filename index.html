@@ -3,31 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Making America | Governor Portal</title>
+    <title>Making America | Garden City</title>
     <link rel="stylesheet" href="css/styles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
 </head>
 <body class="era-1830">
-    <div id="app">
-        <header id="hud">
-            <div class="stat">YEAR: <span id="year">1830</span></div>
-            <div class="stat">NET WORTH: $<span id="gold">100</span></div>
-            <div class="stat">EFFICIENCY: <span id="efficiency">STANDARD</span></div>
-        </header>
+    <header id="hud">
+        <div class="stat">YEAR: <span id="year">1830</span></div>
+        <div class="stat">NET WORTH: $<span id="gold">500</span></div>
+        <div class="stat">EFFICIENCY: <span id="efficiency">STANDARD</span></div>
+    </header>
 
-        <div id="game-viewport">
-            <div id="map-grid"></div>
-            <div id="truth-overlay" class="hidden"></div>
+    <main id="game-viewport">
+        <div id="map-grid"></div>
+        <div id="truth-overlay" class="hidden"></div>
+        
+        <div id="npc-container">
+            <div id="npc-avatar">🦊</div>
+            <div id="speech-bubble">
+                <p id="npc-text">Welcome, Governor! Click a tile to plant our first settlement. The Bureau is watching!</p>
+            </div>
         </div>
+    </main>
 
-        <aside id="controls">
-            <div id="ticker">Waiting for Governor's Directive...</div>
-            <button id="btn-optimize" onclick="engine.toggleOptimization()">OPTIMIZE LABOR (10x Speed)</button>
-            <button id="btn-foundations" class="hidden" onclick="ui.toggleXray()">VIEW FOUNDATIONS</button>
-            <button id="btn-audit" class="hidden" onclick="audit.generate()">CLAIM FINAL DIVIDEND</button>
-        </aside>
-    </div>
+    <footer id="controls">
+        <button id="btn-optimize" class="btn-main" onclick="engine.toggleOptimization()">⚡ OPTIMIZE GROWTH</button>
+        <button id="btn-nature" class="btn-main" onclick="engine.toggleNature()">🌿 CULTIVATE NATURE</button>
+        
+        <button id="btn-foundations" class="btn-special hidden" onclick="ui.toggleXray()">🔍 VIEW FOUNDATIONS</button>
+        <button id="btn-audit" class="btn-special hidden" onclick="audit.generate()">📜 CLAIM FINAL DIVIDEND</button>
+    </footer>
 
     <script src="js/data.js"></script>
     <script src="js/ui-manager.js"></script>
