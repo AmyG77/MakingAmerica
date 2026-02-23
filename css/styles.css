@@ -1,152 +1,107 @@
-/* --- GLOBAL THEME & VARIABLES --- */
+/* --- COZY CITY THEME --- */
 :root {
-    --bg: #d2b48c;       /* 1830 Tan/Sepia */
-    --text: #3e2723;     /* Dark Brown Text */
-    --accent: #8d6e63;   /* Frontier Wood */
-    --modern-bg: #f4f7f6;
-    --modern-text: #1a1a1b;
-    --modern-blue: #0070f3;
+    --bg-color: #fbeddb;  /* Warm Paper */
+    --grass: #a8e6cf;     /* Minty Parks */
+    --water: #dcedc1;     /* Soft Seafoam */
+    --road: #95a5a6;      /* Gentle Grey */
+    --accent: #ff8b94;    /* Pastel Pink */
+    --text-color: #5d4037;
 }
 
 body {
-    background-color: var(--bg);
+    background-color: var(--bg-color);
     margin: 0;
-    padding: 0;
-    color: var(--text);
-    font-family: 'Courier New', Courier, monospace;
-    transition: background-color 1.5s ease, color 1.5s ease;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    font-family: 'Segoe UI', Rounded, sans-serif;
+    color: var(--text-color);
+    overflow-x: hidden;
 }
 
-/* --- HEADERS & HUD --- */
+/* --- THE HUD: METRICS OVER BEAUTY --- */
 #hud {
-    width: 100%;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(10px);
     padding: 20px;
-    background: rgba(0, 0, 0, 0.05);
     display: flex;
-    justify-content: space-around;
-    font-weight: bold;
-    border-bottom: 2px solid var(--accent);
-    box-sizing: border-box;
+    justify-content: space-between;
+    border-bottom: 3px solid var(--water);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
 }
 
 .stat {
     font-size: 1.2rem;
+    font-weight: 900;
     text-transform: uppercase;
 }
 
-/* --- GAME VIEWPORT & GRID --- */
+/* --- THE CITY VIEWPORT --- */
 #game-viewport {
-    position: relative;
-    margin-top: 30px;
-    width: 90vw;
-    max-width: 800px;
+    display: flex;
+    justify-content: center;
+    padding: 40px 0;
+    perspective: 1000px; /* Gives a slight 3D tilt */
 }
 
 #map-grid {
     display: grid;
-    grid-template-columns: repeat(10, 1fr); /* 10x10 Grid */
-    gap: 4px;
-    background: #5d4037; /* Soil Color */
-    padding: 10px;
-    border: 8px solid #3e2723;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    grid-template-columns: repeat(10, 1fr);
+    gap: 12px;
+    padding: 20px;
+    background: white;
+    border-radius: 40px;
+    box-shadow: 0 20px 50px rgba(93, 64, 55, 0.15);
+    transform: rotateX(10deg); /* Slight isometric lean */
 }
 
+/* --- CITY BUILDINGS --- */
 .tile {
-    background: #e0c9a6; /* Unsettled Land */
-    aspect-ratio: 1 / 1;
-    border: 1px solid rgba(0,0,0,0.1);
-    transition: all 0.2s ease;
-    cursor: crosshair;
+    width: 60px;
+    height: 60px;
+    background: var(--grass);
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 6px 0px rgba(0,0,0,0.1);
+    cursor: pointer;
 }
 
 .tile:hover {
-    background: #f5f5dc;
-    filter: brightness(1.1);
+    transform: translateY(-10px) scale(1.1);
+    background: var(--water);
 }
 
-/* Visual state for settled land */
+/* Building States */
 .built {
-    background: #8b4513 !important; /* Settled/Wood Cabin Color */
+    background: #ffffff !important;
+    border: 2px solid var(--accent);
+    animation: bounceIn 0.5s ease;
 }
 
-/* --- THE 2026 MODERN OVERRIDE --- */
+@keyframes bounceIn {
+    0% { transform: scale(0); }
+    60% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+/* --- 2026 TECH-GARDEN OVERRIDE --- */
 body.era-2026 {
-    background-color: var(--modern-bg);
-    color: var(--modern-text);
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-}
-
-body.era-2026 #hud {
-    background: #ffffff;
-    border-bottom: 1px solid #ddd;
-    color: var(--modern-text);
-}
-
-body.era-2026 #map-grid {
-    background: #ffffff;
-    border: 1px solid #ddd;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    background-color: #e0f2f1;
 }
 
 body.era-2026 .tile {
-    background: #ffffff;
-    border: 1px solid #f0f0f0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid #b2dfdb;
 }
 
 body.era-2026 .built {
-    background: var(--modern-blue) !important; /* Tech Hub Blue */
-    border-radius: 2px;
+    background: #4fc3f7 !important;
+    box-shadow: 0 0 15px rgba(79, 195, 247, 0.5);
 }
 
-/* --- X-RAY & FOUNDATIONS --- */
-#truth-overlay {
-    position: absolute;
-    top: 0; left: 0; 
-    width: 100%; height: 100%;
-    background: rgba(183, 28, 28, 0.2); /* Red tint for the 'Truth' */
-    pointer-events: none;
-    z-index: 10;
-    transition: opacity 0.5s ease;
-}
-
-/* --- UI CONTROLS & BUTTONS --- */
-#controls {
-    margin-top: 30px;
-    display: flex;
-    gap: 15px;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-button {
-    padding: 12px 24px;
-    font-size: 1rem;
-    font-weight: bold;
-    cursor: pointer;
-    border: none;
-    border-radius: 4px;
-    transition: transform 0.1s active;
-    background: var(--accent);
-    color: white;
-}
-
-button:hover {
-    filter: brightness(1.1);
-}
-
-#btn-audit {
-    background-color: #2e7d32; /* Success Green */
-}
-
-#btn-foundations {
-    background-color: #c62828; /* Warning Red */
-}
-
-/* --- UTILITY --- */
-.hidden {
-    display: none !important;
-}
+.hidden { display: none !important; }
