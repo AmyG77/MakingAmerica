@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="css/styles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
-<body class="era-1830">
+<body>
     <header id="hud">
         <div class="stat">YEAR: <span id="year">1830</span></div>
         <div class="stat">NET WORTH: $<span id="gold">800</span></div>
@@ -18,9 +18,7 @@
         
         <div id="npc-container">
             <div id="npc-avatar-img"></div> 
-            <div id="speech-bubble">
-                <p id="npc-text">Welcome, Governor. The valley is ready for expansion.</p>
-            </div>
+            <div id="speech-bubble"><p id="npc-text">Welcome, Governor. Barnaby is in the trade tent.</p></div>
         </div>
     </main>
 
@@ -32,7 +30,7 @@
         </div>
         
         <div id="restore-controls" class="hidden">
-            <button class="btn-restore" onclick="engine.setAction('restore')">🌿 RESTORE LAND ($5,000/ea)</button>
+            <button class="btn-restore" onclick="engine.setAction('restore')">🌿 RESTORE LAND</button>
             <button class="btn-special" onclick="audit.generate()">📜 FINAL AUDIT</button>
         </div>
     </nav>
@@ -41,12 +39,12 @@
         <div class="shop-content">
             <div id="barnaby-avatar">🐻</div>
             <h2>Barnaby's Trading Post</h2>
-            <p>"Tools for the frontier, Governor! Only the finest steel."</p>
             <div class="shop-item">
                 <span>Steel Plow (2x Yield)</span>
                 <button onclick="engine.upgradeTools('Steel Plow', 500, 2)">$500</button>
             </div>
-            <button class="btn-close" onclick="ui.toggleShop()">Close Trade</button>
+            <br>
+            <button class="btn-close" onclick="ui.toggleShop()">CLOSE TRADE</button>
         </div>
     </div>
 
