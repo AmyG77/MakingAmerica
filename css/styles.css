@@ -1,37 +1,41 @@
 :root {
-    --bg: #d2b48c; --text: #3e2723; --accent: #8d6e63;
+    --bg: #d2b48c; /* Tan/Sepia */
+    --text: #3e2723;
+    --accent: #8d6e63;
 }
 
-body.era-2026 {
-    --bg: #f4f7f6; --text: #1a1a1b; --accent: #0070f3;
-    font-family: 'Inter', sans-serif;
+body {
+    background-color: var(--bg);
+    margin: 0;
+    color: var(--text);
+    font-family: 'Courier New', Courier, monospace;
 }
 
 #map-grid {
     display: grid;
-    grid-template-columns: repeat(10, 1fr);
+    grid-template-columns: repeat(10, 1fr); /* 10 columns */
     gap: 2px;
-    background: var(--accent);
-    padding: 10px;
-    height: 60vh;
+    background: #5d4037;
+    width: 90vw;
+    margin: 20px auto;
+    border: 5px solid #3e2723;
 }
 
 .tile {
-    background: #e0c9a6;
-    aspect-ratio: 1;
-    transition: 0.3s;
-    cursor: pointer;
+    background: #e0c9a6; /* Land color */
+    aspect-ratio: 1 / 1;
+    border: 1px solid rgba(0,0,0,0.1);
+    transition: all 0.2s ease;
 }
 
-.tile.optimized { background: #b71c1c; color: white; } /* Hidden until X-ray */
-.era-2026 .tile { background: #ffffff; border: 1px solid #ddd; }
-
-#truth-overlay {
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(255, 0, 0, 0.2);
-    pointer-events: none;
-    z-index: 10;
+.tile:hover {
+    background: #f5f5dc;
+    cursor: crosshair;
 }
 
-.hidden { display: none !important; }
+/* This is what shows up when you click/build */
+.built {
+    background: #8b4513 !important; /* Settled land */
+}
+
+.hidden { display: none; }
