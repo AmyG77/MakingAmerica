@@ -2,15 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Making Ohio | Frontier Audit</title>
+    <title>Making America: Miami Valley</title>
     <link rel="stylesheet" href="css/styles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body class="era-1830">
     <header id="hud">
+        <div class="stat">ERA: <span id="era-name">FRONTIER</span></div>
         <div class="stat">YEAR: <span id="year">1830</span></div>
         <div class="stat">NET WORTH: $<span id="gold">800</span></div>
-        <div class="stat">EFFICIENCY: <span id="efficiency">STANDARD</span></div>
     </header>
 
     <main id="game-viewport">
@@ -18,23 +18,38 @@
             </div>
         
         <div id="npc-container">
-            <div id="npc-avatar">🦊</div>
-            <div id="speech-bubble">
-                <p id="npc-text">Governor, the Shawnee lands are vast. Will you cultivate with care, or use 'DEALINGS' to clear the path?</p>
-            </div>
+            <div id="npc-avatar-img"></div> 
+            <div id="speech-bubble"><p id="npc-text">Welcome to the Miami Valley, Governor. Let's begin the clearing.</p></div>
         </div>
     </main>
 
     <nav id="command-center">
         <div class="btn-group">
-            <button class="btn-garden" onclick="engine.setAction('nature')">🌲 CONSERVE</button>
-            <button class="btn-garden" onclick="engine.setAction('build')">🏘️ SETTLE</button>
+            <button class="btn-ui" onclick="engine.setAction('plow')">🚜 PLOW</button>
+            <button class="btn-ui" onclick="ui.toggleShop()">⚖️ TRADE & TOOLS</button>
         </div>
         <button id="btn-charge" class="btn-giant" onclick="engine.toggleOptimization()">⚡ DEALINGS</button>
-        <button id="btn-audit" class="btn-special hidden" onclick="audit.generate()">📜 DOWNLOAD FINAL AUDIT</button>
+        <button id="btn-audit" class="btn-special hidden" onclick="audit.generate()">📜 VIEW FINAL AUDIT</button>
     </nav>
 
+    <div id="shop-overlay" class="hidden">
+        <div class="shop-content">
+            <h2>Frontier Trade & Tools</h2>
+            <p>Upgrade your implements to accelerate valley expansion.</p>
+            <div class="shop-item" onclick="engine.upgradeTools('Iron Plow', 400, 1.5)">
+                <span>Iron Plow (1.5x Yield)</span>
+                <button>$400</button>
+            </div>
+            <div class="shop-item" onclick="engine.upgradeTools('Steam Ledger', 1500, 3)">
+                <span>Steam Ledger (3x Net Worth)</span>
+                <button>$1500</button>
+            </div>
+            <button class="btn-close" onclick="ui.toggleShop()">Return to Valley</button>
+        </div>
+    </div>
+
     <script src="js/data.js"></script>
+    <script src="js/ui-manager.js"></script>
     <script src="js/audit.js"></script>
     <script src="js/engine.js"></script>
 </body>
