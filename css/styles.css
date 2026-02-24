@@ -1,43 +1,37 @@
-@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&display=swap');
-
-:root {
-    --grass: #a8e6cf; --dirt: #d2b48c; --white: #ffffff;
-}
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@700&display=swap');
 
 body { background: #e8d3b9; margin: 0; font-family: 'Quicksand', sans-serif; overflow: hidden; }
 
+/* THE FIX: Force the hidden class to override everything */
 .hidden { display: none !important; }
 
 #ohio-canvas {
     position: relative; width: 1000px; height: 600px;
-    background-color: var(--grass); margin: 20px auto;
-    border: 10px solid var(--white); border-radius: 40px;
+    background: #a8e6cf; margin: 20px auto;
+    border: 10px solid white; border-radius: 40px;
     box-shadow: 0 20px 60px rgba(0,0,0,0.1); overflow: hidden;
 }
 
-/* THE FIX: Fallback colors so you can see if the building logic works */
+/* SPRITE PATHS: Using ../ to go up from /css/ to find /assets/ */
 .entity {
-    position: absolute; width: 80px; height: 80px;
+    position: absolute; width: 120px; height: 120px;
     background-size: contain; background-repeat: no-repeat;
     background-position: bottom center; transform: translate(-50%, -100%);
-    transition: all 0.4s ease-out;
-    background-color: rgba(255,255,255,0.2); /* Visual aid */
-    border-radius: 10px;
 }
+.entity.corn { background-image: url('../assets/corn.png'); }
+.entity.factory { background-image: url('../assets/factory.png'); }
+.entity.mall { background-image: url('../assets/mall.png'); }
+.entity.decay { background-image: url('../assets/abandoned.png'); filter: grayscale(1); }
+.entity.ancient-forest { background-image: url('../assets/ancient-oak.png'); }
 
-/* If the PNG fails, these colors will show up */
-.entity.corn { background-image: url('../assets/corn.png'); background-color: #ffd54f; } 
-.entity.factory { background-image: url('../assets/factory.png'); background-color: #e57373; }
-.entity.mall { background-image: url('../assets/mall.png'); background-color: #90a4ae; }
-.entity.decay { background-image: url('../assets/abandoned.png'); background-color: #78909c; }
-.entity.ancient-forest { background-image: url('../assets/ancient-oak.png'); background-color: #4caf50; }
+#npc-avatar-img { width: 80px; height: 80px; background: url('../assets/pip-avatar.png') center/cover; border-radius: 50%; border: 3px solid white; }
+#barnaby-avatar { font-size: 4rem; }
 
-/* HUD & NPC */
-#hud { background: white; padding: 20px; display: flex; justify-content: space-around; border-bottom: 5px solid var(--grass); font-weight: bold;}
-#npc-container { position: absolute; bottom: 120px; left: 50px; display: flex; align-items: center; z-index: 100; }
-#npc-avatar-img { width: 80px; height: 80px; background: url('../assets/pip-avatar.png') center/cover; border-radius: 50%; border: 3px solid white; background-color: #ccc; }
-#speech-bubble { background: white; padding: 15px; border-radius: 20px; margin-left: 10px; border: 2px solid var(--dirt); max-width: 200px; }
-
-/* SHOP FIXED */
-#shop-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: flex; justify-content: center; align-items: center; z-index: 9999; }
-.shop-content { background: #fff9e6; padding: 40px; border-radius: 30px; border: 8px solid var(--dirt); width: 400px; text-align: center; }
+/* UI Elements */
+#shop-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.8); display: flex; justify-content: center; align-items: center; z-index: 9999;
+}
+.shop-content { background: #fff9e6; padding: 40px; border-radius: 30px; border: 6px solid #d2b48c; text-align: center; }
+.btn-ui, .btn-restore, .btn-special { padding: 15px 25px; border-radius: 30px; border: none; font-weight: bold; cursor: pointer; }
+.btn-giant { padding: 20px 50px; border-radius: 50px; background: #ffcc00; border: none; font-weight: 900; cursor: pointer; box-shadow: 0 8px 0 #ccaa00; }
