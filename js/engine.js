@@ -28,19 +28,9 @@ const engine = {
         const y = e.clientY - rect.top;
 
         if (this.year >= 2026 && this.currentAction === 'restore') {
-            this.restoreLand(e.target);
+            this.handleRestoration(e.target);
         } else if (this.year < 2026) {
             this.build(x, y);
-        }
-    },
-
-    upgradeTools(name, cost, mult) {
-        if (this.gold >= cost) {
-            this.gold -= cost;
-            this.multiplier = mult;
-            ui.toggleShop();
-            document.getElementById('npc-text').innerText = `You bought the ${name}! Production is surging.`;
-            this.updateUI();
         }
     },
 
@@ -48,20 +38,10 @@ const engine = {
         let cost = this.isOptimized ? 25 : 150;
         if (this.gold >= cost) {
             this.gold -= cost;
-            this.clearWildernessAt(x, y);
+            this.clearWildernessAt(x, y); // Removes oaks to make room
             this.placeSprite(x, y);
             this.updateUI();
         }
-    },
-
-    clearWildernessAt(x, y) {
-        const trees = document.querySelectorAll('.initial-wild');
-        trees.forEach(tree => {
-            const tx = parseFloat(tree.style.left);
-            const ty = parseFloat(tree.style.top);
-            const dist = Math.sqrt((x - tx)**2 + (y - ty)**2);
-            if (dist < 50) tree.remove();
-        });
     },
 
     placeSprite(x, y) {
@@ -75,16 +55,18 @@ const engine = {
         el.className = `entity ${type}`;
         el.style.left = `${x}px`;
         el.style.top = `${y}px`;
-        el.style.zIndex = Math.floor(y);
+        el.style.zIndex = Math.floor(y); // Depth stacking
         canvas.appendChild(el);
     },
 
-    restoreLand(target) {
-        if (!target.classList.contains('entity') || this.gold < 5000) return;
-        this.gold -= 5000;
-        this.restoredCount++;
-        target.className = 'entity ancient-forest';
-        this.updateUI();
+    clearWildernessAt(x, y) {
+        const trees = document.querySelectorAll('.initial-wild');
+        trees.forEach(tree => {
+            const tx = parseFloat(tree.style.left);
+            const ty = parseFloat(tree.style.top);
+            const dist = Math.sqrt((x - tx)**2 + (y - ty)**2);
+            if (dist < 50) tree.remove();
+        });
     },
 
     tick() {
@@ -100,12 +82,7 @@ const engine = {
     updateUI() {
         document.getElementById('year').innerText = Math.floor(this.year);
         document.getElementById('gold').innerText = Math.floor(this.gold);
-        let total = document.querySelectorAll('.entity').length;
-        let score = total > 0 ? (this.restoredCount / total) * 100 : 0;
-        document.getElementById('steward-score').innerText = Math.floor(score);
-    },
-
-    setAction(mode) { this.currentAction = mode; }
+    }
 };
 window.engine = engine;
 window.onload = () => engine.init();
