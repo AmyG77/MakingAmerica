@@ -74,12 +74,7 @@ const engine = {
         if (this.year < 2026) {
             this.year += this.isOptimized ? 5 : 1;
             this.gold += (this.isOptimized ? 1500 : 300) * this.multiplier;
-
-            // DUST BOWL EFFECT TRIGGER
-            if (this.year >= 1930) {
-                document.body.classList.add('era-dusty');
-            }
-
+            if (this.year >= 1930) document.body.classList.add('era-dusty');
             this.updateUI();
         } else {
             ui.switchToModern();
