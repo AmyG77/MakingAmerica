@@ -6,7 +6,7 @@
 
 body { background: #e8d3b9; margin: 0; font-family: 'Quicksand', sans-serif; overflow: hidden; transition: filter 5s ease-in-out; }
 
-/* THE FIX: Dust Bowl Transition triggered in 1930 */
+/* Triggered in 1930 via engine.js */
 .era-dusty { filter: sepia(0.5) saturate(0.7) brightness(0.9); }
 
 .hidden { display: none !important; }
@@ -18,24 +18,23 @@ body { background: #e8d3b9; margin: 0; font-family: 'Quicksand', sans-serif; ove
     box-shadow: 0 20px 60px rgba(0,0,0,0.1); overflow: hidden;
 }
 
-/* THE FIX: background-size: contain ensures the full image shows up */
+/* Fixes the scaling and depth stacking issues */
 .entity {
     position: absolute; width: 100px; height: 100px;
     background-size: contain !important; 
     background-repeat: no-repeat;
     background-position: bottom center;
     transform: translate(-50%, -100%);
-    pointer-events: none; /* Prevents clicking the building instead of the map */
+    pointer-events: none;
 }
 
-/* RELATIVE PATHS: Looking UP one level to find the assets folder */
+/* Relative paths looking UP from /css folder into /assets */
 .entity.corn { background-image: url('../assets/corn.png'); } 
 .entity.factory { background-image: url('../assets/factory.png'); }
 .entity.mall { background-image: url('../assets/mall.png'); }
 .entity.decay { background-image: url('../assets/abandoned.png'); filter: grayscale(1); }
 .entity.ancient-forest { background-image: url('../assets/ancient-oak.png'); }
 
-/* UI ELEMENTS */
 #shop-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: rgba(0,0,0,0.8); display: flex; justify-content: center; align-items: center; z-index: 9999;
@@ -43,3 +42,6 @@ body { background: #e8d3b9; margin: 0; font-family: 'Quicksand', sans-serif; ove
 .shop-content { background: #fff9e6; padding: 40px; border-radius: 30px; border: 8px solid var(--dirt); text-align: center; width: 400px; }
 
 #npc-avatar-img { width: 80px; height: 80px; background: url('../assets/pip-avatar.png') center/cover; border-radius: 50%; border: 3px solid white; }
+
+.btn-ui, .btn-restore, .btn-special { padding: 15px 25px; border-radius: 30px; border: none; font-weight: bold; cursor: pointer; }
+.btn-giant { padding: 20px 50px; border-radius: 50px; background: #ffcc00; border: none; font-weight: 900; cursor: pointer; box-shadow: 0 8px 0 #ccaa00; }
