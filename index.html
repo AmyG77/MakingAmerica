@@ -1,56 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Making America: Miami Valley</title>
-    <link rel="stylesheet" href="css/styles.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <title>BY GEORGE EDUCATION PARTNERS, LLC</title>
+    <style>
+        body { font-family: sans-serif; line-height: 1.6; max-width: 800px; margin: 40px auto; padding: 20px; }
+        footer { margin-top: 50px; font-size: 0.8em; color: #666; border-top: 1px solid #ccc; padding-top: 10px; }
+    </style>
 </head>
-<body class="era-1830">
-    <header id="hud">
-        <div class="stat">YEAR: <span id="year">1830</span></div>
-        <div class="stat">NET WORTH: $<span id="gold">800</span></div>
-        <div class="stat">STEWARDSHIP: <span id="steward-score">0</span>%</div>
-    </header>
-
-    <main id="game-viewport">
-        <div id="ohio-canvas"></div>
-        
-        <div id="npc-container">
-            <div id="npc-avatar-img"></div> 
-            <div id="speech-bubble"><p id="npc-text">Welcome, Governor. Barnaby is in the trade tent.</p></div>
-        </div>
-    </main>
-
-    <nav id="command-center">
-        <div id="build-controls">
-            <button class="btn-ui" onclick="engine.setAction('plow')">🚜 PLOW</button>
-            <button class="btn-ui" onclick="ui.toggleShop()">⚖️ TRADE</button>
-            <button id="btn-charge" class="btn-giant" onclick="engine.toggleOptimization()">⚡ DEALINGS</button>
-        </div>
-        
-        <div id="restore-controls" class="hidden">
-            <button class="btn-restore" onclick="engine.setAction('restore')">🌿 RESTORE LAND</button>
-            <button class="btn-special" onclick="audit.generate()">📜 FINAL AUDIT</button>
-        </div>
-    </nav>
-
-    <div id="shop-overlay" class="hidden">
-        <div class="shop-content">
-            <div id="barnaby-avatar">🐻</div>
-            <h2>Barnaby's Trading Post</h2>
-            <div class="shop-item">
-                <span>Steel Plow (2x Yield)</span>
-                <button onclick="engine.upgradeTools('Steel Plow', 500, 2)">$500</button>
-            </div>
-            <br>
-            <button class="btn-close" onclick="ui.toggleShop()">CLOSE TRADE</button>
-        </div>
-    </div>
-
-    <script src="js/data.js"></script>
-    <script src="js/ui-manager.js"></script>
-    <script src="js/audit.js"></script>
-    <script src="js/engine.js"></script>
+<body>
+    <h1>BY GEORGE EDUCATION PARTNERS, LLC</h1>
+    <p><strong>Legal Address:</strong> 01889 Feeder Rd, St. Marys, OH 45885</p>
+    <p><strong>Business Phone:</strong> +1 (937) 506-0770</p>
+    <p>Making America 2030 - Educational Simulation Software</p>
+    
+    <footer>© 2026 BY GEORGE EDUCATION PARTNERS, LLC. All rights reserved.</footer>
 </body>
 </html>
